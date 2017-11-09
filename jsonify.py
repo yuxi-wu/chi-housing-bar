@@ -14,7 +14,9 @@ def jsonify_csv(csvfile, jsonfile):
         reader = random.sample(list(reader),30)
 
         jsonfile = open(jsonfile, 'w')
+        jsonfile.write('[')
         for row in reader:
             row_converted = {k: ROWTYPES[k](v) for k, v in row.items()}
             json.dump(row_converted, jsonfile)
-            jsonfile.write('\n')
+            jsonfile.write(',\n')
+        jsonfile.write(']')
