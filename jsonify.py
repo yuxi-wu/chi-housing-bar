@@ -3,10 +3,16 @@
 import csv
 import json
 
+ROWTYPES = {'Neighbourhood': str,
+            'ZHVI': int,
+            'Side': str}
+
 def jsonify_csv(csvfile, jsonfile):
     with open(csvfile) as f:
         reader = csv.DictReader(f)
-        rows = list(reader)
 
-    with open(jsonfile, 'w') as f:
-        json.dump(rows, f)
+        jsonfile = open(jsonfile, 'w')
+        for row in reader:
+            row_converted = {k: ROWTYPES[k](v) for k, v in row.items()}
+            json.dump(row_converted, jsonfile)
+            jsonfile.write('\n')
