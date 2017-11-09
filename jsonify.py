@@ -2,14 +2,16 @@
 
 import csv
 import json
+import random
 
-ROWTYPES = {'Neighbourhood': str,
-            'ZHVI': int,
-            'Side': str}
+ROWTYPES = {'neighbourhood': str,
+            'zhvi': int,
+            'side': str}
 
 def jsonify_csv(csvfile, jsonfile):
     with open(csvfile) as f:
         reader = csv.DictReader(f)
+        reader = random.sample(list(reader),30)
 
         jsonfile = open(jsonfile, 'w')
         for row in reader:
