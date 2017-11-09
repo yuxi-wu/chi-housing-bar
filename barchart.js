@@ -41,6 +41,7 @@ function makeBarChart(){
         .attr('transform', 'translate(0,' + height + ')')
         .call(xAxis)
         .selectAll("text")
+        .attr('id','labeling')
             .attr("y", 0)
             .attr("x", 9)
             .attr("dy", ".35em")
@@ -49,15 +50,19 @@ function makeBarChart(){
 
     var yAxisEle = svg.append('g')
         .classed('y axis', true)
+        .attr('id','labeling')
         .call(yAxis);
 
     var yText = yAxisEle.append('text')
+        .attr('id','labeling')
         .attr('transform', 'rotate(-90)translate(-' + height/2 + ',0)')
         .style('text-anchor', 'middle')
         .style('fill', 'black')
         .attr('dy', '-4.25em')
         .style('font-size', 14)
-        .text('Zillow Housing Value Index');
+        .text('Zillow Housing Value Index')
+        .selectAll("text")
+            .attr('id','labeling');
 
     var barHolder = svg.append('g')
         .classed('bar-holder', true);
@@ -65,6 +70,7 @@ function makeBarChart(){
     var bars = barHolder.selectAll('rect.bar')
         .data(dataset)
         .enter().append('rect')
+        .attr('id','labeling')
         .classed('bar', true)
         .attr('x', function(d, i){return neighScale(d.neighbourhood)})
         .attr('width', bandwidth)
