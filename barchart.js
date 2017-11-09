@@ -1,12 +1,12 @@
 
-var margin = {top: 20, right: 20, bottom: 70, left: 80},
+var margin = {top: 40, right: 40, bottom: 120, left: 80},
     fullwidth = 700,
     fullheight = 500,
     width = fullwidth - margin.left - margin.right,
     height = fullheight - margin.top - margin.bottom;
 
 d3.json("zillow_chicago.json", function(error,data){
-    dataset = data;
+    dataset = data.sort(function(a,b) {return b.zhvi - a.zhvi;});
     makeBarChart();
 });
 
@@ -39,7 +39,13 @@ function makeBarChart(){
     svg.append('g')
         .classed('x axis', true)
         .attr('transform', 'translate(0,' + height + ')')
-        .call(xAxis);
+        .call(xAxis)
+        .selectAll("text")
+            .attr("y", 0)
+            .attr("x", 9)
+            .attr("dy", ".35em")
+            .attr("transform", "rotate(70)")
+            .style("text-anchor", "start");
 
     var yAxisEle = svg.append('g')
         .classed('y axis', true)
@@ -63,5 +69,13 @@ function makeBarChart(){
         .attr('x', function(d, i){return neighScale(d.neighbourhood)})
         .attr('width', bandwidth)
         .attr('y', function(d) {return zhviScale(d.zhvi);})
-        .attr('height', function(d) {return height - zhviScale(d.zhvi);});
+        .attr('height', function(d) {return height - zhviScale(d.zhvi);})
+        .attr("class", function(d) {
+          var side
+          if (d.side == 'South') {side = 'south'}
+          else if (d.side.includes('North')) {side = 'north'}
+          else if (d.side.includes('South')) {side = 'south'}
+          else if (d.side.includes('West')) {side = 'west'}
+          else if (d.side.includes('Central')) {side = 'central'}
+          return side});
 };
