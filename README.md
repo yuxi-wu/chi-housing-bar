@@ -1,1 +1,1 @@
-### Some exploration and visualisation of Divvy, CTA, and Zillow trends.
+### A bar chart of housing prices in select Chicago neighbourhoods using D3.js.
